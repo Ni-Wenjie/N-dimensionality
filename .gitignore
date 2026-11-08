@@ -1,0 +1,5 @@
+# Local SSH deploy key - NEVER commit this directory
+.ssh/
+
+# WorkBuddy local workspace data (session memory, not project source)
+.workbuddy/
