@@ -24,3 +24,5 @@
 - [L-020] 2026-11-08 22:37:04 +0800 | task=T-203 | status=passed | F3 迭代复检完成: 社区规范缺失 7->0, parse 不一致 True->False, CI 3->4, 用例 167->169, 新增 13 文件均在计划范围内
 - [L-021] 2026-11-09 17:13:29 +0800 | task=T-301 | status=passed | F2 认证解除: SSH Ed25519 进程内注入, ssh -T 返回 Hi Ni-Wenjie; 目标仓库 git@github.com:Ni-Wenjie/N-dimensionality.git 基于 main@340e0f8 建分支 ndl/NODE-20261108-d60a-vercel-ms/fullflow-release 并真实推送 bc73616c6754943e0f1d413c151603361e654176; 4/4 断言 PASS(提交一致/未推 main/Conventional Commits/无 --force)
 - [L-022] 2026-11-09 17:13:29 +0800 | task=T-302 | status=passed | F2 真实发布记录归档: F2-REAL-RELEASE.md + F2-PR-DRAFT-REAL.md, F2-GATE.md 结论更新为 BLOCKED_AUTH 已解除, REGISTRY.yaml status=published_test_branch
+- [L-023] 2026-11-09 17:15:51 +0800 | task=T-303 | status=passed | F2 收尾: 同步 6 个记录文件并提交 8dc2722 推送至同一分支, 远端 main 仍为 340e0f8, 脱敏 0 命中; 远端副本日志为发布快照(止于 L-022), 本地 logs/MAIN.md 为权威
+- [L-024] 2026-11-09 17:30:43 +0800 | task=T-401 | status=passed | 上传项目详细说明: PROJECT-GUIDE.md(206 行/12 章) 提交 a986b34 推送到 ndl/NODE-20261108-d60a-vercel-ms/fullflow-release, 发布前脱敏 0 命中; 目标为 GitHub 发布分支(用户已选), 未直推 main, 未用 --force
