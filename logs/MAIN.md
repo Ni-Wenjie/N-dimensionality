@@ -5,12 +5,12 @@
 > 时间戳由系统 `date` 取得；节点专属日志位于 `logs/<NODE-ID>.md`。
 
 <!-- STATUS BLOCK START -->
-- 更新时间: 2026-11-08 22:37:04 +0800
-- 当前条目: L-020
+- 更新时间: 2026-11-09 17:13:29 +0800
+- 当前条目: L-022
 - NODE-ID: NODE-20261108-d60a-vercel-ms
-- 最近任务: T-203 (passed)
-- 摘要: F3 迭代复检完成: 社区规范缺失 7->0, parse 不一致 True->False, CI 3->4, 用例 167->169, 新增 13 文件均在计划范围内
-- 已通过任务数: 18
+- 最近任务: T-302 (passed)
+- 摘要: F2 真实发布记录归档: F2-REAL-RELEASE.md + F2-PR-DRAFT-REAL.md, F2-GATE.md 结论更新为 BLOCKED_AUTH 已解除, REGISTRY.yaml status=published_test_branch
+- 已通过任务数: 20
 <!-- STATUS BLOCK END -->
 
 ## 追加摘要区
@@ -34,3 +34,5 @@
 - [L-018] 2026-11-08 22:30:22 +0800 | node=NODE-20261108-d60a-vercel-ms | task=T-201 | status=blocked | F2 闸门: 12/12 passed 且 git status 干净 PASS, 脱敏扫描 0 命中; 真实认证探测无密钥/无 PAT/gh 未登录 -> BLOCKED_AUTH, 不向真实 GitHub 推送
 - [L-019] 2026-11-08 22:33:47 +0800 | node=NODE-20261108-d60a-vercel-ms | task=T-202 | status=passed | F2 演练完成: 本地 bare 远端 Fork PR 推送 5/5 断言 PASS(提交一致/分支名合规/未推 main/Conventional Commits/保留 LICENSE); 真实发布因无凭据 BLOCKED_AUTH
 - [L-020] 2026-11-08 22:37:04 +0800 | node=NODE-20261108-d60a-vercel-ms | task=T-203 | status=passed | F3 迭代复检完成: 社区规范缺失 7->0, parse 不一致 True->False, CI 3->4, 用例 167->169, 新增 13 文件均在计划范围内
+- [L-021] 2026-11-09 17:13:29 +0800 | node=NODE-20261108-d60a-vercel-ms | task=T-301 | status=passed | F2 认证解除: SSH Ed25519 进程内注入, ssh -T 返回 Hi Ni-Wenjie; 目标仓库 git@github.com:Ni-Wenjie/N-dimensionality.git 基于 main@340e0f8 建分支 ndl/NODE-20261108-d60a-vercel-ms/fullflow-release 并真实推送 bc73616c6754943e0f1d413c151603361e654176; 4/4 断言 PASS(提交一致/未推 main/Conventional Commits/无 --force)
+- [L-022] 2026-11-09 17:13:29 +0800 | node=NODE-20261108-d60a-vercel-ms | task=T-302 | status=passed | F2 真实发布记录归档: F2-REAL-RELEASE.md + F2-PR-DRAFT-REAL.md, F2-GATE.md 结论更新为 BLOCKED_AUTH 已解除, REGISTRY.yaml status=published_test_branch
