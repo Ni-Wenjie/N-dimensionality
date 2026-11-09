@@ -26,3 +26,4 @@
 - [L-022] 2026-11-09 17:13:29 +0800 | task=T-302 | status=passed | F2 真实发布记录归档: F2-REAL-RELEASE.md + F2-PR-DRAFT-REAL.md, F2-GATE.md 结论更新为 BLOCKED_AUTH 已解除, REGISTRY.yaml status=published_test_branch
 - [L-023] 2026-11-09 17:15:51 +0800 | task=T-303 | status=passed | F2 收尾: 同步 6 个记录文件并提交 8dc2722 推送至同一分支, 远端 main 仍为 340e0f8, 脱敏 0 命中; 远端副本日志为发布快照(止于 L-022), 本地 logs/MAIN.md 为权威
 - [L-024] 2026-11-09 17:30:43 +0800 | task=T-401 | status=passed | 上传项目详细说明: PROJECT-GUIDE.md(206 行/12 章) 提交 a986b34 推送到 ndl/NODE-20261108-d60a-vercel-ms/fullflow-release, 发布前脱敏 0 命中; 目标为 GitHub 发布分支(用户已选), 未直推 main, 未用 --force
+- [L-025] 2026-11-09 17:32:00 +0800 | task=T-402 | status=passed | 数据更正: PROJECT-GUIDE.md 最终 207 行/12607 字节(较 L-024 记录的 206 行多 1 行, 为附录新增自身索引行); 12 章不变, 已同步到发布分支
