@@ -1,0 +1,58 @@
+# docs/contracts/route.schema.yaml
+# 策略层产物契约：优化路线 YAML 必须符合本文件。TEST PROFILE 实例化。
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "ndl:contract:route:v2.0"
+title: NDL 优化路线（策略层）
+type: object
+required: [kind, spec, profile, node_id, route_id, generated_at, source, findings, strategies, acceptance_policy]
+additionalProperties: false
+properties:
+  kind: { type: string, const: "route" }
+  spec: { type: string, const: "NDL-SPEC-0001 v2.0" }
+  profile: { type: string, const: "TEST" }
+  node_id: { type: string, pattern: "^NODE-[0-9]{8}-[0-9a-f]{4}-[a-z0-9-]+$" }
+  route_id: { type: string, pattern: "^ROUTE-[0-9]{8}-[0-9a-f]{4}$" }
+  generated_at: { type: string, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \\+0800$" }
+  source:
+    type: object
+    required: [repo_url, ref, channel, snapshot_sha256]
+    additionalProperties: false
+    properties:
+      repo_url: { type: string, format: uri }
+      ref: { type: string, minLength: 1 }
+      channel: { type: string, enum: [codeload, git-ssh, git-http] }
+      snapshot_sha256: { type: string, pattern: "^[0-9a-f]{64}$" }
+  findings:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [id, severity, path, evidence, assertion]
+      additionalProperties: false
+      properties:
+        id: { type: string, pattern: "^F-[0-9]{3}$" }
+        severity: { type: string, enum: [critical, high, medium, low] }
+        path: { type: string, minLength: 1 }
+        evidence: { type: string, minLength: 1 }
+        assertion: { type: string, minLength: 1 }
+  strategies:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [id, goal, scope, acceptance, risk, addresses]
+      additionalProperties: false
+      properties:
+        id: { type: string, pattern: "^S-[0-9]{3}$" }
+        goal: { type: string, minLength: 1 }
+        scope: { type: array, minItems: 1, items: { type: string } }
+        acceptance: { type: array, minItems: 1, items: { type: string } }
+        risk: { type: string, minLength: 1 }
+        addresses: { type: array, minItems: 1, items: { type: string } }
+  acceptance_policy:
+    type: object
+    required: [verification, on_failure]
+    additionalProperties: false
+    properties:
+      verification: { type: string, const: "每条 acceptance 必须映射为计划中可自动判定的 verify 命令" }
+      on_failure: { type: string, const: "rollback" }

@@ -1,0 +1,31 @@
+name: NDL Community Baseline
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  community:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify community baseline files
+        run: |
+          set -e
+          for f in README.md LICENSE CONTRIBUTING.md CODE_OF_CONDUCT.md \
+                   SECURITY.md SUPPORT.md CHANGELOG.md .gitignore \
+                   .github/PULL_REQUEST_TEMPLATE.md \
+                   .github/ISSUE_TEMPLATE/bug_report.yml \
+                   .github/ISSUE_TEMPLATE/feature_request.yml \
+                   .github/workflows/ndl-community.yml; do
+            test -s "$f" || { echo "MISSING: $f"; exit 1; }
+          done
+          echo "community baseline: OK"
+      - name: Verify parse length message matches guard
+        run: |
+          python3 - <<'PY'
+          import pathlib
+          s = pathlib.Path('src/index.ts').read_text()
+          assert 'str.length > 100' in s, 'guard changed'
+          assert 'length between 1 and 100' in s, 'message inconsistent with guard'
+          print('parse length message: OK')
+          PY

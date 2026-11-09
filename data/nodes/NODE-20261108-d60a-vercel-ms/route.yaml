@@ -1,0 +1,100 @@
+# 优化路线（策略层） · 由 F3 检测驱动 · TEST PROFILE
+kind: route
+spec: "NDL-SPEC-0001 v2.0"
+profile: TEST
+node_id: NODE-20261108-d60a-vercel-ms
+route_id: ROUTE-20261108-3f43
+generated_at: "2026-11-08 22:17:37 +0800"
+source:
+  repo_url: "https://github.com/vercel/ms.git"
+  ref: main
+  channel: codeload
+  snapshot_sha256: "a58dc34e09984fe05f1a7064e23f0cca36fcd7f4e01004503c527d12359f9c34"
+findings:
+  - id: F-001
+    severity: medium
+    path: CONTRIBUTING.md
+    evidence: "ndl_detect.py 输出 community.CONTRIBUTING.md=missing"
+    assertion: "test -s gateway/nodes/NODE-20261108-d60a-vercel-ms/CONTRIBUTING.md 返回 0"
+  - id: F-002
+    severity: medium
+    path: CODE_OF_CONDUCT.md
+    evidence: "ndl_detect.py 输出 community.CODE_OF_CONDUCT.md=missing"
+    assertion: "test -s gateway/nodes/NODE-20261108-d60a-vercel-ms/CODE_OF_CONDUCT.md 返回 0"
+  - id: F-003
+    severity: high
+    path: SECURITY.md
+    evidence: "ndl_detect.py 输出 community.SECURITY.md=missing"
+    assertion: "test -s gateway/nodes/NODE-20261108-d60a-vercel-ms/SECURITY.md 返回 0 且含 'Reporting a Vulnerability'"
+  - id: F-004
+    severity: low
+    path: SUPPORT.md
+    evidence: "ndl_detect.py 输出 community.SUPPORT.md=missing"
+    assertion: "test -s gateway/nodes/NODE-20261108-d60a-vercel-ms/SUPPORT.md 返回 0"
+  - id: F-005
+    severity: medium
+    path: CHANGELOG.md
+    evidence: "ndl_detect.py 输出 community.CHANGELOG.md=missing"
+    assertion: "test -s gateway/nodes/NODE-20261108-d60a-vercel-ms/CHANGELOG.md 返回 0 且含 '4.0.0'"
+  - id: F-006
+    severity: medium
+    path: .github/ISSUE_TEMPLATE/
+    evidence: "ndl_detect.py 输出 community..github/ISSUE_TEMPLATE=missing"
+    assertion: "test -s gateway/nodes/NODE-20261108-d60a-vercel-ms/.github/ISSUE_TEMPLATE/bug_report.yml 返回 0 且 YAML 可解析"
+  - id: F-007
+    severity: medium
+    path: .github/PULL_REQUEST_TEMPLATE.md
+    evidence: "ndl_detect.py 输出 community..github/PULL_REQUEST_TEMPLATE.md=missing"
+    assertion: "test -s gateway/nodes/NODE-20261108-d60a-vercel-ms/.github/PULL_REQUEST_TEMPLATE.md 返回 0"
+  - id: F-008
+    severity: high
+    path: src/index.ts
+    evidence: "ndl_detect.py 输出 source.parse_length_guard=100 但 source.parse_error_message_upper=99，inconsistent=true"
+    assertion: "python3 断言源码中 'length between 1 and 100' 与 'str.length > 100' 同时存在"
+  - id: F-009
+    severity: medium
+    path: .github/workflows/
+    evidence: "ndl_detect.py 输出 ci_workflows=[quality.yml, release.yml, test.yml]，无社区规范齐备性门禁"
+    assertion: "test -s gateway/nodes/NODE-20261108-d60a-vercel-ms/.github/workflows/ndl-community.yml 返回 0 且 YAML 可解析"
+strategies:
+  - id: S-001
+    goal: "补齐 7 项 GitHub 社区规范文件，使社区规范基线 11 项全部 present"
+    scope:
+      - CONTRIBUTING.md
+      - CODE_OF_CONDUCT.md
+      - SECURITY.md
+      - SUPPORT.md
+      - CHANGELOG.md
+      - .github/ISSUE_TEMPLATE/bug_report.yml
+      - .github/ISSUE_TEMPLATE/feature_request.yml
+      - .github/PULL_REQUEST_TEMPLATE.md
+    acceptance:
+      - "python3 data/lab/bin/ndl_verify.py community 退出码 0"
+      - "ndl_detect.py 重新运行后 community_missing 为空数组"
+    risk: "新增文件不改变运行时行为；风险限于 PR 体积增大，可用单提交聚合"
+    addresses: [F-001, F-002, F-003, F-004, F-005, F-006, F-007]
+  - id: S-002
+    goal: "修正 parse() 长度错误信息与实际守卫不一致，并新增 100/101 字符边界回归测试"
+    scope:
+      - src/index.ts
+      - src/parse-length.test.ts
+      - docs/parse-length-fix.md
+    acceptance:
+      - "python3 data/lab/bin/ndl_verify.py parse-msg 退出码 0"
+      - "test -s src/parse-length.test.ts 且含 100 与 101 边界用例"
+      - "python3 data/lab/bin/ndl_verify.py parse-runtime 退出码 0"
+    risk: "仅调整错误文案与新增测试，不改变 parse() 数值行为；原有 167 用例不应受影响"
+    addresses: [F-008]
+  - id: S-003
+    goal: "新增社区规范齐备性 CI 门禁，使检测结论可由 CI 自动复现"
+    scope:
+      - .github/workflows/ndl-community.yml
+      - docs/ndl-community-workflow.md
+    acceptance:
+      - "python3 data/lab/bin/ndl_verify.py ci-gate 退出码 0"
+      - "yaml.safe_load 解析 .github/workflows/ndl-community.yml 不抛异常"
+    risk: "新增 workflow 仅在 push/pull_request 触发，不影响现有 quality/test/release 工作流"
+    addresses: [F-009]
+acceptance_policy:
+  verification: "每条 acceptance 必须映射为计划中可自动判定的 verify 命令"
+  on_failure: rollback

@@ -1,0 +1,21 @@
+# data/lab/REGISTRY.yaml — NODE-ID 唯一来源（TEST PROFILE 实例化）
+registry_version: "2.0"
+spec: "NDL-SPEC-0001 v2.0"
+profile: TEST
+generated_at: "2026-11-08 22:13:02 +0800"
+nodes:
+  - node_id: NODE-20261108-d60a-vercel-ms
+    repo_url: "https://github.com/vercel/ms.git"
+    repo_slug: vercel-ms
+    ref: main
+    channel: codeload
+    workspace_path: "gateway/nodes/NODE-20261108-d60a-vercel-ms"
+    data_path: "data/nodes/NODE-20261108-d60a-vercel-ms"
+    log_path: "logs/NODE-20261108-d60a-vercel-ms.md"
+    third_party: true
+    publish_mode: fork-pr
+    created_at: "2026-11-08 22:13:02 +0800"
+    status: f2_blocked_auth
+    plan_id: PLAN-20261108-fa6c
+    route_id: ROUTE-20261108-3f43
+    note: "本地 bare 远端 Fork PR 演练 5/5 PASS；真实发布因无凭据返回 BLOCKED_AUTH"

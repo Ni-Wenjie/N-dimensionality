@@ -1,0 +1,130 @@
+kind: plan
+spec: NDL-SPEC-0001 v2.0
+profile: TEST
+node_id: NODE-20261108-d60a-vercel-ms
+plan_id: PLAN-20261108-fa6c
+route_id: ROUTE-20261108-3f43
+plan_slug: community-and-parse-fix
+branch: ndl/NODE-20261108-d60a-vercel-ms/community-and-parse-fix
+generated_at: 2026-11-08 22:21:45 +0800
+tasks:
+- id: T-101
+  path: CONTRIBUTING.md
+  action: 新增贡献指南：pnpm 安装、test:nodejs/lint/typecheck 命令、Conventional Commits、Fork PR
+    流程
+  verify:
+    cmd: test -s CONTRIBUTING.md && grep -q 'pnpm run test:nodejs' CONTRIBUTING.md
+    expect: exit0
+  rollback: rm -f CONTRIBUTING.md
+  status: passed
+  md_note: data/nodes/NODE-20261108-d60a-vercel-ms/findings/F-001.md
+- id: T-102
+  path: CODE_OF_CONDUCT.md
+  action: 新增 Contributor Covenant 行为准则
+  verify:
+    cmd: test -s CODE_OF_CONDUCT.md && grep -q 'Contributor Covenant' CODE_OF_CONDUCT.md
+    expect: exit0
+  rollback: rm -f CODE_OF_CONDUCT.md
+  status: passed
+  md_note: data/nodes/NODE-20261108-d60a-vercel-ms/findings/F-002.md
+- id: T-103
+  path: SECURITY.md
+  action: 新增安全政策：受支持版本、Reporting a Vulnerability 渠道
+  verify:
+    cmd: test -s SECURITY.md && grep -q 'Reporting a Vulnerability' SECURITY.md
+    expect: exit0
+  rollback: rm -f SECURITY.md
+  status: passed
+  md_note: data/nodes/NODE-20261108-d60a-vercel-ms/findings/F-003.md
+- id: T-104
+  path: SUPPORT.md
+  action: 新增支持入口：issue 使用边界与求助路径
+  verify:
+    cmd: test -s SUPPORT.md && grep -q 'GitHub Issues' SUPPORT.md
+    expect: exit0
+  rollback: rm -f SUPPORT.md
+  status: passed
+  md_note: data/nodes/NODE-20261108-d60a-vercel-ms/findings/F-004.md
+- id: T-105
+  path: CHANGELOG.md
+  action: 新增变更日志，记录 4.0.0 基线与本次 TEST 改动
+  verify:
+    cmd: test -s CHANGELOG.md && grep -q '4.0.0' CHANGELOG.md
+    expect: exit0
+  rollback: rm -f CHANGELOG.md
+  status: passed
+  md_note: data/nodes/NODE-20261108-d60a-vercel-ms/findings/F-005.md
+- id: T-106
+  path: .github/ISSUE_TEMPLATE/
+  action: 新增 bug_report.yml 与 feature_request.yml 两个结构化 issue 模板
+  verify:
+    cmd: python3 -c "import yaml;[yaml.safe_load(open(p)) for p in ['.github/ISSUE_TEMPLATE/bug_report.yml','.github/ISSUE_TEMPLATE/feature_request.yml']]"
+    expect: exit0
+  rollback: rm -rf .github/ISSUE_TEMPLATE
+  status: passed
+  md_note: data/nodes/NODE-20261108-d60a-vercel-ms/findings/F-006.md
+- id: T-107
+  path: .github/PULL_REQUEST_TEMPLATE.md
+  action: 新增 PR 模板：变更说明、验收命令、Rollback 栏位
+  verify:
+    cmd: test -s .github/PULL_REQUEST_TEMPLATE.md && grep -q 'Rollback' .github/PULL_REQUEST_TEMPLATE.md
+    expect: exit0
+  rollback: rm -f .github/PULL_REQUEST_TEMPLATE.md
+  status: passed
+  md_note: data/nodes/NODE-20261108-d60a-vercel-ms/findings/F-007.md
+- id: T-108
+  path: src/index.ts
+  action: 把 parse() 错误文案中的 'length between 1 and 99' 改为 100，使其与 str.length > 100 守卫一致；新增
+    docs/parse-length-fix.md 说明
+  verify:
+    cmd: python3 -c "import pathlib;s=pathlib.Path('src/index.ts').read_text();assert
+      'str.length > 100' in s and 'length between 1 and 100' in s;print('parse-msg-ok')"
+    expect: exit0
+  rollback: git checkout -- src/index.ts && rm -f docs/parse-length-fix.md
+  status: passed
+  md_note: docs/parse-length-fix.md
+- id: T-109
+  path: src/parse-length.test.ts
+  action: 新增 100/101 字符边界回归测试与 docs/parse-length-test.md 说明
+  verify:
+    cmd: test -s src/parse-length.test.ts && grep -q '101' src/parse-length.test.ts
+      && test -s docs/parse-length-test.md
+    expect: exit0
+  rollback: rm -f src/parse-length.test.ts docs/parse-length-test.md
+  status: passed
+  md_note: docs/parse-length-test.md
+- id: T-110
+  path: .github/workflows/ndl-community.yml
+  action: 新增社区规范齐备性 CI 门禁 workflow 与 docs/ndl-community-workflow.md 说明
+  verify:
+    cmd: python3 -c "import yaml;d=yaml.safe_load(open('.github/workflows/ndl-community.yml'));assert
+      'jobs' in d;print('ci-gate-ok')" && test -s docs/ndl-community-workflow.md
+    expect: exit0
+  rollback: rm -f .github/workflows/ndl-community.yml docs/ndl-community-workflow.md
+  status: passed
+  md_note: docs/ndl-community-workflow.md
+- id: T-111
+  path: data/nodes/NODE-20261108-d60a-vercel-ms/F5-ACCEPTANCE.md
+  action: 运行全套自动验收（community / parse-msg / parse-runtime / ci-gate / 167 用例）并写出验收报告
+  verify:
+    cmd: python3 /workspace/data/lab/bin/ndl_verify.py all && test -s /workspace/data/nodes/NODE-20261108-d60a-vercel-ms/F5-ACCEPTANCE.md
+    expect: exit0
+  rollback: rm -f /workspace/data/nodes/NODE-20261108-d60a-vercel-ms/F5-ACCEPTANCE.md
+  status: passed
+  md_note: data/nodes/NODE-20261108-d60a-vercel-ms/F5-ACCEPTANCE.md
+- id: T-112
+  path: gateway/nodes/NODE-20261108-d60a-vercel-ms/
+  action: 创建分支 ndl/NODE-20261108-d60a-vercel-ms/community-and-parse-fix 并以 Conventional
+    Commits 提交全部改动，写 F5-COMMIT.md
+  verify:
+    cmd: 'test "$(git branch --show-current)" = ''ndl/NODE-20261108-d60a-vercel-ms/community-and-parse-fix''
+      && git log -1 --pretty=%s | grep -qE ''^(feat|fix|docs|chore|refactor|test|ci)(\([^)]*\))?:
+      '' && test -z "$(git status --porcelain)"'
+    expect: exit0
+  rollback: git reset --soft HEAD~1
+  status: passed
+  md_note: data/nodes/NODE-20261108-d60a-vercel-ms/F5-COMMIT.md
+gate:
+  f2_precondition: 所有 task.status == passed 且 git status --porcelain 为空
+  on_unclean: BLOCKED_NO_VALIDATED_PLAN
+  on_auth_failure: BLOCKED_AUTH
